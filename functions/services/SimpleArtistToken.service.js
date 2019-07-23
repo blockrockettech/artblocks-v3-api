@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const {connectToSimpleArtistToken, weiToEth} = require('./connection.utils');
 
-const padTokenId = (tokenId) => ('00000000' + tokenId).slice(-9);
+const padTokenId = (tokenId) => ('000000000' + tokenId).slice(-10);
 
 class SimpleArtistTokenService {
 
@@ -49,12 +49,13 @@ class SimpleArtistTokenService {
     async getMetaData (network, tokenId) {
         const token = connectToSimpleArtistToken(network);
 
-        const tokenBaseURI = await token.tokenBaseURI();
+
+        const tokenUri = await token.tokenURI(tokenId);
 
         return {
             name: `#${padTokenId(tokenId)}`,
             description: `ArtBlocks v3 #${padTokenId(tokenId)}`,
-            image: `${tokenBaseURI[0]}${tokenId}/image`,
+            image: `${tokenUri[0].toString()}`,
             background_color: 'FEFEBE', // pissy yellow
             attributes: {}
         };

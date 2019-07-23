@@ -26,7 +26,7 @@ contract.get('/owner/:address', async (req, res, next) => {
 
         return res
             .status(200)
-            .json(ownerTokens);
+            .json(_.map(ownerTokens, t => t.toString()));
     } catch (e) {
         return next(e);
     }
