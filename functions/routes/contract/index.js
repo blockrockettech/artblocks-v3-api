@@ -8,7 +8,7 @@ contract.get('/token/:tokenId', async (req, res, next) => {
     try {
         const {network, tokenId} = req.params;
 
-        const tokenDetails = await simpleArtistTokenService.getTokenInfo(network, tokenId);
+        const tokenDetails = await simpleArtistTokenService.getMetaData(network, tokenId);
 
         return res
             .status(200)

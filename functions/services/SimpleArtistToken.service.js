@@ -2,6 +2,8 @@ const _ = require('lodash');
 
 const {connectToSimpleArtistToken, weiToEth} = require('./connection.utils');
 
+const padTokenId = (tokenId) => ('00000000' + tokenId).slice(-9);
+
 class SimpleArtistTokenService {
 
     async getOwnerTokens (network, owner) {
@@ -41,6 +43,20 @@ class SimpleArtistTokenService {
             artistAddress: artistAddress[0],
             foundationAddress: foundationAddress[0],
             foundationPercentage: foundationPercentage[0],
+        };
+    }
+
+    async getMetaData (network, tokenId) {
+        const token = connectToSimpleArtistToken(network);
+
+        const tokenBaseURI = await token.tokenBaseURI();
+
+        return {
+            name: `#${padTokenId(tokenId)}`,
+            description: `ArtBlocks v3 #${padTokenId(tokenId)}`,
+            image: `${tokenBaseURI[0]}${tokenId}/image`,
+            background_color: 'FEFEBE', // pissy yellow
+            attributes: {}
         };
     }
 
