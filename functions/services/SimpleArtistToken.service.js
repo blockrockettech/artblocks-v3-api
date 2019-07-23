@@ -61,7 +61,7 @@ class SimpleArtistTokenService {
         return {
             name: `#${padTokenId(tokenId)}`,
             description: `ArtBlocks v3 #${padTokenId(tokenId)}`,
-            image: `${tokenUri[0].toString()}`,
+            image: `${tokenUri[0].toString()}/image`,
             background_color: 'FEFEBE', // pissy yellow
             attributes: {}
         };
