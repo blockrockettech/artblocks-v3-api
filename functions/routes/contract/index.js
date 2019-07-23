@@ -3,6 +3,25 @@ const _ = require('lodash');
 const contract = require('express').Router({mergeParams: true});
 
 const simpleArtistTokenService = require('../../services/SimpleArtistToken.service');
+const imageGenService = require('../../services/ImageGen.service');
+
+contract.get('/token/image/:tokenId', async (req, res, next) => {
+    try {
+        const {network, tokenId} = req.params;
+
+        const hash = await simpleArtistTokenService.getHash(network, tokenId);
+
+        const buffer = await imageGenService.generate(hash);
+        console.log(buffer);
+
+        return res
+            .contentType('image/png')
+            .send(buffer);
+    } catch (e) {
+        return next(e);
+    }
+});
+
 
 contract.get('/token/:tokenId', async (req, res, next) => {
     try {

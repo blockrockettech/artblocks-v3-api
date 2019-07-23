@@ -12,6 +12,12 @@ class SimpleArtistTokenService {
         return await token.tokensOfOwner(owner);
     }
 
+    async getHash (network, tokenId) {
+        const token = connectToSimpleArtistToken(network);
+
+        return (await token.tokenIdToHash(tokenId))[0];
+    }
+
     async getContractInfo (network) {
         const token = connectToSimpleArtistToken(network);
 
@@ -39,6 +45,7 @@ class SimpleArtistTokenService {
             tokenBaseURI: tokenBaseURI[0],
             tokenBaseIpfsURI: tokenBaseIpfsURI[0],
             pricePerTokenInWei: pricePerTokenInWei[0],
+            pricePerTokenInEth: weiToEth(pricePerTokenInWei[0]),
             applicationChecksum: applicationChecksum[0],
             artistAddress: artistAddress[0],
             foundationAddress: foundationAddress[0],
@@ -48,7 +55,6 @@ class SimpleArtistTokenService {
 
     async getMetaData (network, tokenId) {
         const token = connectToSimpleArtistToken(network);
-
 
         const tokenUri = await token.tokenURI(tokenId);
 
