@@ -6,19 +6,19 @@ const padTokenId = (tokenId) => ('000000000' + tokenId).slice(-10);
 
 class SimpleArtistTokenService {
 
-    async getOwnerTokens (network, owner) {
+    async getOwnerTokens(network, owner) {
         const token = connectToSimpleArtistToken(network);
 
         return await token.tokensOfOwner(owner);
     }
 
-    async getHash (network, tokenId) {
+    async getHash(network, tokenId) {
         const token = connectToSimpleArtistToken(network);
 
         return (await token.tokenIdToHash(tokenId))[0];
     }
 
-    async getContractInfo (network) {
+    async getContractInfo(network) {
         const token = connectToSimpleArtistToken(network);
 
         const name = await token.name();
@@ -53,21 +53,24 @@ class SimpleArtistTokenService {
         };
     }
 
-    async getMetaData (network, tokenId) {
+    async getMetaData(network, tokenId) {
         const token = connectToSimpleArtistToken(network);
 
         const tokenUri = await token.tokenURI(tokenId);
+        const hash = await this.getHash(network, tokenId);
 
         return {
             name: `#${padTokenId(tokenId)}`,
             description: `ArtBlocks v3 #${padTokenId(tokenId)}`,
             image: `${tokenUri[0].toString()}/image`,
             background_color: 'FEFEBE', // pissy yellow
-            attributes: {}
+            attributes: {
+                hash
+            }
         };
     }
 
-    async isWhitelisted (network, address) {
+    async isWhitelisted(network, address) {
         // Assuming always validating against mainnet for artist updates
         const token = connectToSimpleArtistToken(network);
         console.log('Is Whitelisted', address);

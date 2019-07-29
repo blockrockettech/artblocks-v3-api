@@ -1,7 +1,7 @@
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
 admin.initializeApp({
-    credential: admin.credential.cert(require('./_keys/artblocks-v3-firebase-adminsdk-kc7j5-7fa84409fb.json')),
+    credential: admin.credential.cert(require('./_keys/artblocks-v3-firebase-adminsdk.json')),
     databaseURL: 'https://artblock-v3.firebaseio.com'
 });
 
@@ -18,7 +18,6 @@ app.options('*', cors({origin: false}));
 const contract = require('./routes/contract');
 
 app.use('/network/:network/contract', contract);
-
 
 // Expose Express API as a single Cloud Function:
 exports.main = functions.https.onRequest(app);
