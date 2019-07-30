@@ -57,7 +57,7 @@ class SimpleArtistTokenService {
         const token = connectToSimpleArtistToken(network);
 
         const tokenUri = await token.tokenURI(tokenId);
-        const hash = await this.getHash(network, tokenId);
+        const hash = (await token.tokenIdToHash(tokenId))[0];
 
         return {
             name: `#${padTokenId(tokenId)}`,
@@ -68,6 +68,13 @@ class SimpleArtistTokenService {
                 hash
             }
         };
+    }
+
+    async latestToken(network) {
+        const token = connectToSimpleArtistToken(network);
+        const totalSupply = await token.totalSupply();
+        const tokenByIndex = await token.tokenByIndex(_.toNumber(totalSupply[0]) - 1);
+        return tokenByIndex[0].toString();
     }
 
     async isWhitelisted(network, address) {

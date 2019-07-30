@@ -20,6 +20,21 @@ contract.get('/token/:tokenId/image', async (req, res, next) => {
     }
 });
 
+contract.get('/token/latest', async (req, res, next) => {
+    try {
+        const {network} = req.params;
+
+        const tokenId = await simpleArtistTokenService.latestToken(network);
+
+        const tokenDetails = await simpleArtistTokenService.getMetaData(network, tokenId);
+
+        return res
+            .status(200)
+            .json(tokenDetails);
+    } catch (e) {
+        return next(e);
+    }
+});
 
 contract.get('/token/:tokenId', async (req, res, next) => {
     try {
